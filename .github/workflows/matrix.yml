@@ -1,7 +1,8 @@
 name: Dynamic Matrix Example
 
 on:
-  pull_request: [opened]
+  pull_request:
+    types: [opened]
 
 jobs:
   generate-matrix:
