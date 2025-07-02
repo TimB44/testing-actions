@@ -13,7 +13,7 @@ jobs:
         shell: bash
         run: |
           matrix="[{"job-name": "job 1", "execute": "echo \"hello\""}, {"job-name": "job2 2", "execute": "echo \"bye\""}]"
-          echo "$matrix" >> $GITHUB_OUTPUT
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
   template-job:
     needs: generate-matrix
