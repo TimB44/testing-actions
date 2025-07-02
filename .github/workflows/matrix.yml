@@ -11,15 +11,21 @@ jobs:
     steps:
       - id: set-matrix
         run: |
-          matrix='[{"job-name":"job 1","execute":"echo \"hello\"},{"job-name":"job2 2","execute":"echo \"bye\""}]'
+          matrix=$(cat <<EOF
+          [
+            {"job-name": "job 1", "execute": "echo \"hello\""},
+            {"job-name": "job2 2", "execute": "echo \"bye\""}
+          ]
+          EOF
+          )
           echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
-  run-matrix:
+  template-job:
     needs: generate-matrix
     runs-on: ubuntu-latest
     strategy:
       matrix:
         include: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+    name: ${{ matrix.job-name }}
     steps:
-      - run: |
-          echo "Running with a=${{ matrix.a }} and b=${{ matrix.b }}"
+      - run: ${{ matrix.execute }}
