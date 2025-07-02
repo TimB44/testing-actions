@@ -1,7 +1,7 @@
 name: Dynamic Matrix Example
 
 on:
-  workflow_dispatch:
+  pull_request: [opened]
 
 jobs:
   generate-matrix:
