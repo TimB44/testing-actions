@@ -1,8 +1,7 @@
-name: Trigger Workflow
+name: HI
 
 on:
-  workflow_dispatch:
-
+  pull_requets: 
 jobs:
   setup:
     runs-on: ubuntu-latest

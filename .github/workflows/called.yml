@@ -42,8 +42,9 @@ jobs:
 
       - name: Step 3 Analyze results
         run: echo "Analyzing results"
+
   call-bests:
     uses: ./.github/workflows/called2.yml
-    needs: deploy
+    needs: test-job-3
     with:
       env_name: "bests"
