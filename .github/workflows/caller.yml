@@ -1,7 +1,7 @@
 name: HI
 
 on:
-  pull_request: 
+  workflow_dispatch: 
 jobs:
   setup:
     runs-on: ubuntu-latest
