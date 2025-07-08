@@ -1,0 +1,41 @@
+name: B
+
+on:
+  workflow_call:
+    inputs:
+      count:
+        type: number
+        required: true
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set.outputs.matrix }}
+    steps:
+      - id: set
+        run: |
+          COUNT=${{ inputs.count }}
+          if [ "$COUNT" -gt 0 ]; then
+            MATRIX=$(seq 1 "$COUNT" | jq -R . | jq -s .)
+          else
+            MATRIX="[]"
+          fi
+          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+        shell: bash
+
+  run-matrix:
+    needs: generate-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        item: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+    steps:
+      - run: echo "Running matrix item ${{ matrix.item }}"
+
+  call-a:
+    needs: run-matrix
+    if: ${{ inputs.count > 1 }}
+    uses: ./.github/workflows/workflow-a.yml
+    with:
+      count: ${{ inputs.count - 1 }}

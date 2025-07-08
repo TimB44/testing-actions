@@ -1,7 +1,7 @@
 name: Run bests
 
 on:
-  workflow_call:
+  workflow_run:
     inputs:
       env_name:
         required: true
